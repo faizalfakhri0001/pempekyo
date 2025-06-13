@@ -3,7 +3,7 @@
 "use client";
 import React from "react";
 import ProductCard from "@/components/shared/ProductCard";
-import { MOCK_PRODUCTS } from "@/constants/components";
+import { MOCK_PRODUCTS } from "../../constants/components";
 
 export default function MenuPage() {
   return (

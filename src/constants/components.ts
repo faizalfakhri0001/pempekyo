@@ -6,7 +6,7 @@ export const APP_NAME = 'PempekYo';
 
 export const NAV_LINKS: NavLink[] = [
   { href: '/', label: 'Beranda' },
-  { href: '/#menu', label: 'Menu' }, // Assuming menu is a section on homepage
+  { href: '/menu', label: 'Menu' },
   { href: '/#tentang-kami', label: 'Tentang Kami' }, // Assuming about is a section
   { href: '/#kontak', label: 'Kontak' }, // Assuming contact is a section
 ];

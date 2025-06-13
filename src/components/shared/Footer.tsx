@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
     <footer className="bg-gray-100 text-gray-700 py-12">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* PempekEnak Info */}
+          {/* PempekYo Info */}
           <div>
             <h5 className="text-xl font-bold text-gray-900 mb-4">{APP_NAME}</h5>
             <p className="text-sm leading-relaxed">
@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-sm">
               <li>Jl. Merdeka No. 123, Palembang, Sumatera Selatan</li>
               <li>+62 812 3456 7890</li>
-              <li>info@pempekenak.com</li>
+              <li>info@Pempekyo.com</li>
             </ul>
           </div>
 

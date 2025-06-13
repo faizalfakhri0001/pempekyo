@@ -2,7 +2,7 @@ import { NavLink, Product, Testimonial, PaymentOption, PaymentMethodType } from 
 
 
 
-export const APP_NAME = 'PempekEnak';
+export const APP_NAME = 'PempekYo';
 
 export const NAV_LINKS: NavLink[] = [
   { href: '/', label: 'Beranda' },
@@ -69,7 +69,7 @@ export const MOCK_TESTIMONIALS: Testimonial[] = [
     id: '2',
     name: 'Siti Rahmawati',
     role: 'Food Blogger',
-    comment: 'Sebagai food blogger, saya highly recommend PempekEnak. Kualitas bahan dan rasa tidak diragukan lagi. Pengiriman juga cepat.',
+    comment: 'Sebagai food blogger, saya highly recommend PempekYo. Kualitas bahan dan rasa tidak diragukan lagi. Pengiriman juga cepat.',
     rating: 5,
     imageUrl: 'https://picsum.photos/seed/siti/100/100',
   },

@@ -74,7 +74,7 @@ export const useCartStore = create<CartState>()(
       }
     }),
     {
-      name: 'pempekenak-cart-storage', // Name for localStorage key
+      name: 'Pempekyo-cart-storage', // Name for localStorage key
       storage: createJSONStorage(() => localStorage), // Use localStorage
     }
   )

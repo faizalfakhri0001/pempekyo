@@ -160,7 +160,7 @@ export default function HomePage() {
             melalui informasi kontak di bawah ini atau kunjungi footer.
           </p>
           <div className="text-lg text-gray-700">
-            <p>Email: info@pempekenak.com</p>
+            <p>Email: info@Pempekyo.com</p>
             <p>Telepon: +62 812 3456 7890</p>
           </div>
         </div>

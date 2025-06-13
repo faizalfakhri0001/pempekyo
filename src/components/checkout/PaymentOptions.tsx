@@ -4,7 +4,7 @@
 import React from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
-import { PAYMENT_OPTIONS } from "../../@/constants/components";
+import { PAYMENT_OPTIONS } from "@/constants/components";
 import { PaymentOption, PaymentMethodType } from "../../types/components"; // Corrected import path
 import { RiBankLine } from "react-icons/ri";
 

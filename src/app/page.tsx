@@ -1,103 +1,170 @@
-import Image from "next/image";
+/** @format */
 
-export default function Home() {
+"use client";
+import React from "react";
+import Link from "next/link";
+import { Button } from "../components/ui/button";
+import ProductCard from "../components/shared/ProductCard";
+import TestimonialCard from "../components/shared/TestimonialCard";
+import OrderStep from "../components/shared/OrderStep";
+import { MOCK_PRODUCTS, MOCK_TESTIMONIALS } from "constants/components";
+import { ChevronRightIcon } from "lucide-react";
+
+export default function HomePage() {
+  const featuredProducts = MOCK_PRODUCTS.slice(0, 4);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="bg-gray-50 text-gray-800">
+      {/* Hero Section */}
+      <section
+        className="relative h-[calc(100vh-4rem)] min-h-[500px] flex items-center justify-center text-center text-white"
+        style={{
+          backgroundImage:
+            "url('https://picsum.photos/seed/pempekhero/1920/1080')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="relative z-10 p-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            Nikmati Kelezatan Pempek <br className="hidden sm:inline" />
+            Asli Palembang
+          </h1>
+          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+            Pesan sekarang, diantar langsung ke rumahmu. Nikmati berbagai
+            pilihan pempek lezat yang dibuat dengan resep tradisional Palembang
+            dan bahan-bahan berkualitas tinggi.
+          </p>
+          <div className="space-x-4">
+            <Button
+              size="lg"
+              className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold"
+              asChild
+            >
+              <Link href="#menu">Pesan Sekarang</Link>
+            </Button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Produk Unggulan Section */}
+      <section id="menu" className="py-16 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+            Produk Unggulan Kami
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-xl mx-auto">
+            Nikmati berbagai pilihan pempek lezat yang dibuat dengan resep
+            tradisional Palembang dan bahan-bahan berkualitas tinggi
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white"
+              asChild
+            >
+              <Link href="/checkout/cart">
+                {" "}
+                {/* Or a dedicated menu page */}
+                Lihat Semua Menu <ChevronRightIcon className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Cara Pemesanan Section */}
+      <section className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
+            Cara Pemesanan
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            <OrderStep
+              stepNumber="1"
+              title="Pilih Menu Favorit"
+              description="Pilih menu pempek yang Anda sukai dari katalog kami yang lengkap."
+            />
+            <OrderStep
+              stepNumber="2"
+              title="Lakukan Pembayaran"
+              description="Selesaikan pesanan dengan metode pembayaran yang aman dan nyaman."
+            />
+            <OrderStep
+              stepNumber="3"
+              title="Terima Pesanan"
+              description="Pesanan akan segera kami antar langsung ke alamat yang ditentukan."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Pesan Tanpa Login Section */}
+      <section className="py-16 bg-gray-800 text-white">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <h2 className="text-3xl font-bold mb-4">Pesan Tanpa Login</h2>
+          <p className="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+            Tidak ingin membuat akun? Tidak masalah! Anda tetap bisa memesan
+            pempek favorit tanpa perlu login. Cukup masukkan informasi
+            pengiriman saat checkout.
+          </p>
+          <Button
+            size="lg"
+            className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold"
+            asChild
+          >
+            <Link href="/checkout/cart">
+              {" "}
+              {/* Or directly to shipping if cart is empty */}
+              Pesan Sekarang Tanpa Login{" "}
+              <ChevronRightIcon className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
+        </div>
+      </section>
+
+      {/* Apa Kata Pelanggan Section */}
+      <section id="tentang-kami" className="py-16 bg-white">
+        {" "}
+        {/* Combined with 'Tentang Kami' for now */}
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+            Apa Kata Pelanggan Kami
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-xl mx-auto">
+            Lihat pengalaman pelanggan yang telah mencoba pempek lezat dari kami
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {MOCK_TESTIMONIALS.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section Placeholder (as per nav link) */}
+      <section id="kontak" className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Hubungi Kami
+          </h2>
+          <p className="text-gray-600 mb-8 max-w-lg mx-auto">
+            Punya pertanyaan atau masukan? Jangan ragu untuk menghubungi kami
+            melalui informasi kontak di bawah ini atau kunjungi footer.
+          </p>
+          <div className="text-lg text-gray-700">
+            <p>Email: info@pempekenak.com</p>
+            <p>Telepon: +62 812 3456 7890</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { CITIES_KABUPATEN } from "constants/components";
+import { CITIES_KABUPATEN } from "@/constants/components";
 // ShippingInfo type from '../../types' can be used as a reference or for other parts of the app.
 // For the form itself, it's often cleaner to rely on the Zod schema's inferred type.
 

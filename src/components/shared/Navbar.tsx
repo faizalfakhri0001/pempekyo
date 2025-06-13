@@ -3,7 +3,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { NAV_LINKS, APP_NAME } from "../../constants/components";
+import { NAV_LINKS, APP_NAME } from "@/constants/components";
 import { Button } from "../ui/button";
 import { useAuthStore } from "../../store/authStore";
 import { useCartStore } from "../../store/cartStore";

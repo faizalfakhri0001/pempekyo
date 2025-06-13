@@ -8,7 +8,7 @@ import { Button } from "../../../components/ui/button";
 import { Card, CardContent } from "../../../components/ui/card";
 import OrderSummary from "../../../components/checkout/OrderSummary";
 import PaymentOptions from "../../../components/checkout/PaymentOptions";
-import { PAYMENT_OPTIONS } from "../../../constants/components";
+import { PAYMENT_OPTIONS } from "../../../@/constants/components";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 const useSimplePaymentStore = (): [

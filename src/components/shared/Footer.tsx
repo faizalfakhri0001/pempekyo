@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { APP_NAME } from "../../constants/components";
+import { APP_NAME } from "@/constants/components";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 

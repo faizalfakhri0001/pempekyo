@@ -7,7 +7,7 @@ import { Button } from "../components/ui/button";
 import ProductCard from "../components/shared/ProductCard";
 import TestimonialCard from "../components/shared/TestimonialCard";
 import OrderStep from "../components/shared/OrderStep";
-import { MOCK_PRODUCTS, MOCK_TESTIMONIALS } from "constants/components";
+import { MOCK_PRODUCTS, MOCK_TESTIMONIALS } from "@/constants/components";
 import { ChevronRightIcon } from "lucide-react";
 
 export default function HomePage() {

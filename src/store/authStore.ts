@@ -1,50 +1,59 @@
-
 'use client';
 import { User } from '@/types/components';
-import {create} from 'zustand';
+import { create } from 'zustand';
+import { RegisterDetails, login as firebaseLogin, register as firebaseRegister } from '@/lib/auth';
+import { signOut } from 'firebase/auth';
+import { db, auth } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 interface AuthState {
   user: User | null;
   isLoggedIn: boolean;
-  login: (credentials: { email: string; password?: string }) => Promise<User | null>; // Password optional for social login
-  logout: () => void;
-  register: (details: { name: string; email: string; password?: string }) => Promise<User | null>;
+  login: (credentials: { email: string; password: string }) => Promise<User | null>;
+  logout: () => Promise<void>;
+  register: (details: RegisterDetails) => Promise<User | null>;
   isLoading: boolean;
 }
 
-// Mock implementation
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isLoggedIn: false,
   isLoading: false,
   login: async (credentials) => {
     set({ isLoading: true });
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if ((credentials.email === 'user@example.com' && credentials.password === 'password123') || credentials.email === 'googleuser@example.com' || credentials.email === 'fbuser@example.com') {
-          const mockUser: User = { id: '1', email: credentials.email, name: credentials.email.startsWith('google') ? 'Google User' : credentials.email.startsWith('fb') ? 'Facebook User' : 'Test User' };
-          set({ user: mockUser, isLoggedIn: true, isLoading: false });
-          resolve(mockUser);
-        } else {
-          set({ isLoading: false });
-          resolve(null); // Indicate login failure
-        }
-      }, 1000);
-    });
+    try {
+      const cred = await firebaseLogin(credentials.email, credentials.password);
+      const docRef = doc(db, 'users', cred.user.uid);
+      const snap = await getDoc(docRef);
+      const data = snap.data() as Partial<User> | undefined;
+      const user: User = {
+        id: cred.user.uid,
+        email: cred.user.email ?? credentials.email,
+        name: data?.name,
+      };
+      set({ user, isLoggedIn: true, isLoading: false });
+      return user;
+    } catch (error) {
+      console.error('Login failed', error);
+      set({ isLoading: false });
+      return null;
+    }
   },
-  logout: () => {
+  logout: async () => {
+    await signOut(auth);
     set({ user: null, isLoggedIn: false });
   },
   register: async (details) => {
     set({ isLoading: true });
-     // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const newUser: User = { id: Date.now().toString(), email: details.email, name: details.name };
-        set({ user: newUser, isLoggedIn: true, isLoading: false });
-        resolve(newUser);
-      }, 1000);
-    });
+    try {
+      const cred = await firebaseRegister(details);
+      const user: User = { id: cred.user.uid, email: details.email, name: details.name };
+      set({ user, isLoggedIn: true, isLoading: false });
+      return user;
+    } catch (error) {
+      console.error('Registration failed', error);
+      set({ isLoading: false });
+      return null;
+    }
   },
 }));

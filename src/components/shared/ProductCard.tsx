@@ -36,9 +36,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Image
             src={product.imageUrl}
             alt={product.name}
-            layout="fill"
-            objectFit="cover"
-            className="transition-transform duration-300 group-hover:scale-105"
+            fill
+            className="transition-transform duration-300 group-hover:scale-105 object-cover"
           />
         </div>
       </CardHeader>

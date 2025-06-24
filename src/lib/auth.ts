@@ -25,11 +25,11 @@ export async function register(
       details.email,
       details.password
     );
+    details.password = '';
     await setDoc(doc(db, 'users', cred.user.uid), {
       ...details,
       name: details.name,
       email: details.email,
-      password: undefined,
     });
     return cred;
   } catch (e) {

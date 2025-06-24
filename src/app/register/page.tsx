@@ -47,7 +47,11 @@ export default function RegisterPage() {
     useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { register: registerUser, isLoading } = useAuthStore();
+  const {
+    register: registerUser,
+    isLoading,
+    setIsLoading,
+  } = useAuthStore();
 
   const {
     register,
@@ -70,6 +74,7 @@ export default function RegisterPage() {
       router.push('/'); // Redirect to homepage or dashboard after registration
     } else {
       setError('Gagal mendaftar. Email mungkin sudah digunakan.');
+      setIsLoading(false);
     }
   };
 

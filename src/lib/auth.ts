@@ -1,3 +1,5 @@
+/** @format */
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -14,7 +16,9 @@ export interface RegisterDetails {
   [key: string]: unknown;
 }
 
-export async function register(details: RegisterDetails): Promise<UserCredential | null> {
+export async function register(
+  details: RegisterDetails
+): Promise<UserCredential | null> {
   try {
     const cred = await createUserWithEmailAndPassword(
       auth,
@@ -28,26 +32,33 @@ export async function register(details: RegisterDetails): Promise<UserCredential
       password: undefined,
     });
     return cred;
-  } catch {
-    return null
+  } catch (e) {
+    console.error(e);
+    return null;
   }
 }
 
-export async function login(email: string, password: string): Promise<UserCredential | null> {
+export async function login(
+  email: string,
+  password: string
+): Promise<UserCredential | null> {
   try {
-    const cred = await signInWithEmailAndPassword(auth, email, password);
+    const cred = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     return cred;
   } catch {
-    return null
+    return null;
   }
 }
-
 
 export async function loginWithGoogle(): Promise<UserCredential | null> {
   try {
     const cred = await signInWithPopup(auth, googleProvider);
     return cred;
   } catch {
-    return null
+    return null;
   }
 }

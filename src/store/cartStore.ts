@@ -17,6 +17,10 @@ interface CartState {
   applyPromoCode: (code: string) => boolean; // Returns true if valid
   getShippingCost: () => number; // Placeholder
   getGrandTotal: () => number;
+  /** Flag used to trigger cart icon animation */
+  isCartAnimating: boolean;
+  /** Set the animation flag for a short duration */
+  triggerCartAnimation: () => void;
 }
 
 export const useCartStore = create<CartState>()(
@@ -25,6 +29,11 @@ export const useCartStore = create<CartState>()(
       items: [],
       promoCode: null,
       discount: 0,
+      isCartAnimating: false,
+      triggerCartAnimation: () => {
+        set({ isCartAnimating: true });
+        setTimeout(() => set({ isCartAnimating: false }), 700);
+      },
       addItem: (product, quantity = 1) =>
         set((state) => {
           const existingItem = state.items.find((item) => item.id === product.id);

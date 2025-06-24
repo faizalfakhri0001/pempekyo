@@ -22,10 +22,11 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { addItem } = useCartStore();
+  const { addItem, triggerCartAnimation } = useCartStore();
 
   const handleAddToCart = () => {
     addItem(product);
+    triggerCartAnimation();
     // Optionally, show a toast notification here
   };
 

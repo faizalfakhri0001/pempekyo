@@ -7,13 +7,14 @@ import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { cn } from '@/lib/utils';
 import { useAuthStore } from '../../store/authStore';
 import { useCartStore } from '../../store/cartStore';
 import { Button } from '../ui/button';
 
 const Navbar: React.FC = () => {
   const { isLoggedIn, user, logout } = useAuthStore();
-  const { getTotalItems } = useCartStore();
+  const { getTotalItems, isCartAnimating } = useCartStore();
   const router = useRouter();
 
   const totalCartItems = getTotalItems();
@@ -51,7 +52,10 @@ const Navbar: React.FC = () => {
         <div className="flex items-center space-x-3">
           <Link
             href="/checkout/cart"
-            className="relative p-2 hover:bg-gray-100 rounded-full"
+            className={cn(
+              'relative p-2 hover:bg-gray-100 rounded-full',
+              isCartAnimating && 'animate-bounce'
+            )}
           >
             <ShoppingCart className="h-6 w-6 text-gray-700" />
             {totalCartItems > 0 && (

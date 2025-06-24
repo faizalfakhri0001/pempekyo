@@ -1,49 +1,53 @@
 /** @format */
 
-"use client";
-import React, { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
+'use client';
+import { loginWithGoogle } from '@/lib/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { EyeIcon, EyeOff } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FcGoogle } from 'react-icons/fc';
+import { IoLogoFacebook } from 'react-icons/io';
+import * as z from 'zod';
+import { Button } from '../../components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
-import { useAuthStore } from "../../store/authStore";
-import { EyeIcon, EyeOff } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
-import { IoLogoFacebook } from "react-icons/io";
+} from '../../components/ui/card';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { useAuthStore } from '../../store/authStore';
 
 const registerSchema = z
   .object({
-    name: z.string().min(3, { message: "Nama minimal 3 karakter" }),
-    email: z.string().email({ message: "Email tidak valid" }),
-    password: z.string().min(6, { message: "Kata sandi minimal 6 karakter" }),
-    confirmPassword: z
+    name: z.string().min(3, { message: 'Nama minimal 3 karakter' }),
+    email: z.string().email({ message: 'Email tidak valid' }),
+    password: z
       .string()
-      .min(6, { message: "Konfirmasi kata sandi minimal 6 karakter" }),
+      .min(6, { message: 'Kata sandi minimal 6 karakter' }),
+    confirmPassword: z.string().min(6, {
+      message: 'Konfirmasi kata sandi minimal 6 karakter',
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Kata sandi dan konfirmasi kata sandi tidak cocok",
-    path: ["confirmPassword"], // Set error on confirmPassword field
+    message: 'Kata sandi dan konfirmasi kata sandi tidak cocok',
+    path: ['confirmPassword'], // Set error on confirmPassword field
   });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { register: registerUser, isLoading, login } = useAuthStore();
+  const { register: registerUser, isLoading } = useAuthStore();
 
   const {
     register,
@@ -53,7 +57,9 @@ export default function RegisterPage() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterFormValues> = async (
+    data
+  ) => {
     setError(null);
     const user = await registerUser({
       name: data.name,
@@ -61,23 +67,28 @@ export default function RegisterPage() {
       password: data.password,
     });
     if (user) {
-      router.push("/"); // Redirect to homepage or dashboard after registration
+      router.push('/'); // Redirect to homepage or dashboard after registration
     } else {
-      setError("Gagal mendaftar. Email mungkin sudah digunakan.");
+      setError('Gagal mendaftar. Email mungkin sudah digunakan.');
     }
   };
 
-  const handleSocialLogin = async (provider: "google" | "facebook") => {
+  const handleSocialLogin = async (
+    provider: 'google' | 'facebook'
+  ) => {
     setError(null);
-    const email =
-      provider === "google" ? "googleuser@example.com" : "fbuser@example.com";
     // This is a mock; in a real app, you'd get name from OAuth response.
     // For now, if "registering" via social, we just log them in.
-    const user = await login({ email });
-    if (user) {
-      router.push("/");
-    } else {
-      setError(`Gagal mendaftar dengan ${provider}. Silakan coba lagi.`);
+    if (provider === 'google') {
+      const user = await loginWithGoogle();
+      if (user) {
+        router.push('/');
+      } else {
+        setError(
+          `Gagal mendaftar dengan ${provider}. Silakan coba lagi.`
+        );
+      }
+      return;
     }
   };
 
@@ -95,16 +106,23 @@ export default function RegisterPage() {
           </CardHeader>
           <CardContent>
             {error && (
-              <p className="mb-4 text-center text-sm text-red-600">{error}</p>
+              <p className="mb-4 text-center text-sm text-red-600">
+                {error}
+              </p>
             )}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6"
+            >
               <div>
                 <Label htmlFor="name">Nama Lengkap</Label>
                 <Input
                   id="name"
                   type="text"
-                  {...register("name")}
-                  className={`mt-1 ${errors.name ? "border-red-500" : ""}`}
+                  {...register('name')}
+                  className={`mt-1 ${
+                    errors.name ? 'border-red-500' : ''
+                  }`}
                   placeholder="Masukkan nama lengkap Anda"
                 />
                 {errors.name && (
@@ -119,8 +137,10 @@ export default function RegisterPage() {
                   id="email"
                   type="email"
                   autoComplete="email"
-                  {...register("email")}
-                  className={`mt-1 ${errors.email ? "border-red-500" : ""}`}
+                  {...register('email')}
+                  className={`mt-1 ${
+                    errors.email ? 'border-red-500' : ''
+                  }`}
                   placeholder="Masukkan email Anda"
                 />
                 {errors.email && (
@@ -134,9 +154,11 @@ export default function RegisterPage() {
                 <Label htmlFor="password">Kata Sandi</Label>
                 <Input
                   id="password"
-                  type={showPassword ? "text" : "password"}
-                  {...register("password")}
-                  className={`mt-1 ${errors.password ? "border-red-500" : ""}`}
+                  type={showPassword ? 'text' : 'password'}
+                  {...register('password')}
+                  className={`mt-1 ${
+                    errors.password ? 'border-red-500' : ''
+                  }`}
                   placeholder="Masukkan kata sandi"
                 />
                 <button
@@ -145,8 +167,8 @@ export default function RegisterPage() {
                   className="absolute inset-y-0 right-0 top-6 pr-3 flex items-center text-sm leading-5"
                   aria-label={
                     showPassword
-                      ? "Sembunyikan kata sandi"
-                      : "Tampilkan kata sandi"
+                      ? 'Sembunyikan kata sandi'
+                      : 'Tampilkan kata sandi'
                   }
                 >
                   {showPassword ? (
@@ -162,24 +184,28 @@ export default function RegisterPage() {
                 )}
               </div>
               <div className="relative">
-                <Label htmlFor="confirmPassword">Konfirmasi Kata Sandi</Label>
+                <Label htmlFor="confirmPassword">
+                  Konfirmasi Kata Sandi
+                </Label>
                 <Input
                   id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  {...register("confirmPassword")}
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  {...register('confirmPassword')}
                   className={`mt-1 ${
-                    errors.confirmPassword ? "border-red-500" : ""
+                    errors.confirmPassword ? 'border-red-500' : ''
                   }`}
                   placeholder="Konfirmasi kata sandi Anda"
                 />
                 <button
                   type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  onClick={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
                   className="absolute inset-y-0 right-0 top-6 pr-3 flex items-center text-sm leading-5"
                   aria-label={
                     showConfirmPassword
-                      ? "Sembunyikan konfirmasi kata sandi"
-                      : "Tampilkan konfirmasi kata sandi"
+                      ? 'Sembunyikan konfirmasi kata sandi'
+                      : 'Tampilkan konfirmasi kata sandi'
                   }
                 >
                   {showConfirmPassword ? (
@@ -201,7 +227,7 @@ export default function RegisterPage() {
                   className="w-full bg-gray-800 hover:bg-gray-900 text-white"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Memproses..." : "Daftar"}
+                  {isLoading ? 'Memproses...' : 'Daftar'}
                 </Button>
               </div>
             </form>
@@ -222,7 +248,7 @@ export default function RegisterPage() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => handleSocialLogin("google")}
+                    onClick={() => handleSocialLogin('google')}
                     disabled={isLoading}
                   >
                     <FcGoogle className="mr-2 h-5 w-5" />
@@ -233,7 +259,7 @@ export default function RegisterPage() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => handleSocialLogin("facebook")}
+                    onClick={() => handleSocialLogin('facebook')}
                     disabled={isLoading}
                   >
                     <IoLogoFacebook className="mr-2 h-5 w-5 text-[#1877F2]" />
@@ -243,7 +269,7 @@ export default function RegisterPage() {
               </div>
             </div>
             <div className="mt-6 text-center text-sm">
-              Sudah punya akun?{" "}
+              Sudah punya akun?{' '}
               <Link
                 href="/login"
                 className="font-medium text-yellow-600 hover:text-yellow-500"

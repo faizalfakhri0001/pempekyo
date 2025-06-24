@@ -1,14 +1,15 @@
 /** @format */
 
-"use client";
-import React from "react";
-import Link from "next/link";
-import { NAV_LINKS, APP_NAME } from "@/constants/components";
-import { Button } from "../ui/button";
-import { useAuthStore } from "../../store/authStore";
-import { useCartStore } from "../../store/cartStore";
-import { useRouter } from "next/navigation";
-import { ShoppingCart } from "lucide-react";
+'use client';
+import { APP_NAME, NAV_LINKS } from '@/constants/components';
+import { auth } from '@/lib/firebase';
+import { ShoppingCart } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { useAuthStore } from '../../store/authStore';
+import { useCartStore } from '../../store/cartStore';
+import { Button } from '../ui/button';
 
 const Navbar: React.FC = () => {
   const { isLoggedIn, user, logout } = useAuthStore();
@@ -18,16 +19,16 @@ const Navbar: React.FC = () => {
   const totalCartItems = getTotalItems();
 
   const handleAuthAction = () => {
-    if (isLoggedIn) {
+    if (isLoggedIn || !!auth.currentUser) {
       logout();
-      router.push("/"); // Redirect to home after logout
+      router.push('/'); // Redirect to home after logout
     } else {
-      router.push("/login");
+      router.push('/login');
     }
   };
 
   const handleRegisterAction = () => {
-    router.push("/register");
+    router.push('/register');
   };
 
   return (
@@ -59,12 +60,16 @@ const Navbar: React.FC = () => {
               </span>
             )}
           </Link>
-          {isLoggedIn ? (
+          {isLoggedIn || !!auth.currentUser ? (
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-700 hidden sm:inline">
-                Hi, {user?.name?.split(" ")[0] || "User"}
+                Hi, {user?.name?.split(' ')[0] || 'User'}
               </span>
-              <Button variant="outline" size="sm" onClick={handleAuthAction}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleAuthAction}
+              >
                 Keluar
               </Button>
             </div>
@@ -73,7 +78,7 @@ const Navbar: React.FC = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => router.push("/login")}
+                onClick={() => router.push('/login')}
               >
                 Masuk
               </Button>

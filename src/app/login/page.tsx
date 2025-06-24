@@ -1,30 +1,32 @@
 /** @format */
 
-"use client";
-import React, { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
+'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ChevronRightIcon, EyeIcon, EyeOff } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FcGoogle } from 'react-icons/fc';
+import { IoLogoFacebook } from 'react-icons/io';
+import * as z from 'zod';
+import { Button } from '../../components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
-import { useAuthStore } from "../../store/authStore";
-import { ChevronRightIcon, EyeIcon, EyeOff } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
-import { IoLogoFacebook } from "react-icons/io";
+} from '../../components/ui/card';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { useAuthStore } from '../../store/authStore';
 
 const loginSchema = z.object({
-  email: z.string().email({ message: "Email tidak valid" }),
-  password: z.string().min(6, { message: "Kata sandi minimal 6 karakter" }),
+  email: z.string().email({ message: 'Email tidak valid' }),
+  password: z
+    .string()
+    .min(6, { message: 'Kata sandi minimal 6 karakter' }),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -33,7 +35,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { login, isLoading } = useAuthStore();
+  const { login, loginWithGoogle, isLoading } = useAuthStore();
 
   const {
     register,
@@ -45,24 +47,33 @@ export default function LoginPage() {
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     setError(null);
-    const user = await login(data);
-    if (user) {
-      router.push("/"); // Redirect to homepage or dashboard
-    } else {
-      setError("Email atau kata sandi salah. Silakan coba lagi.");
+    try {
+      const user = await login(data);
+      if (user) {
+        router.push('/'); // Redirect to homepage or dashboard
+      } else {
+        setError('Email atau kata sandi salah. Silakan coba lagi.');
+      }
+    } catch {
+      setError('Server Error.');
     }
   };
 
-  const handleSocialLogin = async (provider: "google" | "facebook") => {
+  const handleSocialLogin = async (
+    provider: 'google' | 'facebook'
+  ) => {
     setError(null);
-    // In a real app, this would trigger OAuth flow
-    const email =
-      provider === "google" ? "googleuser@example.com" : "fbuser@example.com";
-    const user = await login({ email }); // Mocked social login
-    if (user) {
-      router.push("/");
-    } else {
-      setError(`Gagal masuk dengan ${provider}. Silakan coba lagi.`);
+
+    if (provider === 'google') {
+      const user = await loginWithGoogle();
+      if (user) {
+        router.push('/');
+      } else {
+        setError(
+          `Gagal masuk dengan ${provider}. Silakan coba lagi.`
+        );
+      }
+      return;
     }
   };
 
@@ -80,17 +91,24 @@ export default function LoginPage() {
           </CardHeader>
           <CardContent>
             {error && (
-              <p className="mb-4 text-center text-sm text-red-600">{error}</p>
+              <p className="mb-4 text-center text-sm text-red-600">
+                {error}
+              </p>
             )}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6"
+            >
               <div>
                 <Label htmlFor="email">Email atau Username</Label>
                 <Input
                   id="email"
                   type="email"
                   autoComplete="email"
-                  {...register("email")}
-                  className={`mt-1 ${errors.email ? "border-red-500" : ""}`}
+                  {...register('email')}
+                  className={`mt-1 ${
+                    errors.email ? 'border-red-500' : ''
+                  }`}
                   placeholder="Masukkan email atau username Anda"
                 />
                 {errors.email && (
@@ -112,10 +130,12 @@ export default function LoginPage() {
                 </div>
                 <Input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
-                  {...register("password")}
-                  className={`mt-1 ${errors.password ? "border-red-500" : ""}`}
+                  {...register('password')}
+                  className={`mt-1 ${
+                    errors.password ? 'border-red-500' : ''
+                  }`}
                   placeholder="Masukkan kata sandi Anda"
                 />
                 <button
@@ -124,8 +144,8 @@ export default function LoginPage() {
                   className="absolute inset-y-0 right-0 top-6 pr-3 flex items-center text-sm leading-5"
                   aria-label={
                     showPassword
-                      ? "Sembunyikan kata sandi"
-                      : "Tampilkan kata sandi"
+                      ? 'Sembunyikan kata sandi'
+                      : 'Tampilkan kata sandi'
                   }
                 >
                   {showPassword ? (
@@ -147,7 +167,7 @@ export default function LoginPage() {
                   className="w-full bg-gray-800 hover:bg-gray-900 text-white"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Memproses..." : "Masuk"}
+                  {isLoading ? 'Memproses...' : 'Masuk'}
                 </Button>
               </div>
             </form>
@@ -169,7 +189,7 @@ export default function LoginPage() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => handleSocialLogin("google")}
+                    onClick={() => handleSocialLogin('google')}
                     disabled={isLoading}
                   >
                     <FcGoogle className="mr-2 h-5 w-5" />
@@ -180,7 +200,7 @@ export default function LoginPage() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => handleSocialLogin("facebook")}
+                    onClick={() => handleSocialLogin('facebook')}
                     disabled={isLoading}
                   >
                     <IoLogoFacebook className="mr-2 h-5 w-5 text-[#1877F2]" />
@@ -190,7 +210,7 @@ export default function LoginPage() {
               </div>
             </div>
             <div className="mt-6 text-center text-sm">
-              Belum memiliki akun?{" "}
+              Belum memiliki akun?{' '}
               <Link
                 href="/register"
                 className="font-medium text-yellow-600 hover:text-yellow-500"
@@ -201,9 +221,9 @@ export default function LoginPage() {
             <div className="mt-8">
               <Button variant="outline" className="w-full" asChild>
                 <Link href="/checkout/shipping">
-                  {" "}
+                  {' '}
                   {/* Assuming guest checkout proceeds to shipping */}
-                  Pesan Tanpa Login{" "}
+                  Pesan Tanpa Login{' '}
                   <ChevronRightIcon className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

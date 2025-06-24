@@ -1,6 +1,12 @@
-import { NavLink, Product, Testimonial, PaymentOption, PaymentMethodType } from "@/types/components";
+/** @format */
 
-
+import {
+  NavLink,
+  PaymentMethodType,
+  PaymentOption,
+  Product,
+  Testimonial,
+} from '@/types/components';
 
 export const APP_NAME = 'PempekYo';
 
@@ -40,7 +46,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 22000,
     imageUrl: 'https://picsum.photos/seed/kulit/300/200',
   },
-   {
+  {
     id: '5',
     name: 'Pempek Keriting',
     description: 'Pempek berbentuk keriting yang unik',
@@ -61,7 +67,8 @@ export const MOCK_TESTIMONIALS: Testimonial[] = [
     id: '1',
     name: 'Budi Hartono',
     role: 'Pelanggan Setia',
-    comment: 'Pempeknya enak banget, rasa otentik Palembang. Kapal selamnya juara!',
+    comment:
+      'Pempeknya enak banget, rasa otentik Palembang. Kapal selamnya juara!',
     rating: 5,
     imageUrl: 'https://picsum.photos/seed/budi/100/100',
   },
@@ -69,7 +76,8 @@ export const MOCK_TESTIMONIALS: Testimonial[] = [
     id: '2',
     name: 'Siti Rahmawati',
     role: 'Food Blogger',
-    comment: 'Sebagai food blogger, saya highly recommend PempekYo. Kualitas bahan dan rasa tidak diragukan lagi. Pengiriman juga cepat.',
+    comment:
+      'Sebagai food blogger, saya highly recommend PempekYo. Kualitas bahan dan rasa tidak diragukan lagi. Pengiriman juga cepat.',
     rating: 5,
     imageUrl: 'https://picsum.photos/seed/siti/100/100',
   },
@@ -77,35 +85,56 @@ export const MOCK_TESTIMONIALS: Testimonial[] = [
     id: '3',
     name: 'Agus Wijaya',
     role: 'Pelanggan Baru',
-    comment: 'Baru pertama kali coba dan langsung jatuh cinta. Pasti akan pesan lagi. Proses pemesanan mudah, bahkan tanpa login.',
+    comment:
+      'Baru pertama kali coba dan langsung jatuh cinta. Pasti akan pesan lagi. Proses pemesanan mudah, bahkan tanpa login.',
     rating: 4,
     imageUrl: 'https://picsum.photos/seed/agus/100/100',
   },
 ];
 
 export const PAYMENT_OPTIONS: PaymentOption[] = [
-  { id: 'bca', name: 'Bank BCA', type: PaymentMethodType.BANK_TRANSFER },
-  { id: 'mandiri', name: 'Bank Mandiri', type: PaymentMethodType.BANK_TRANSFER },
-  { id: 'bni', name: 'Bank BNI', type: PaymentMethodType.BANK_TRANSFER },
+  {
+    id: 'bca',
+    name: 'Bank BCA',
+    type: PaymentMethodType.BANK_TRANSFER,
+  },
+  {
+    id: 'mandiri',
+    name: 'Bank Mandiri',
+    type: PaymentMethodType.BANK_TRANSFER,
+  },
+  {
+    id: 'bni',
+    name: 'Bank BNI',
+    type: PaymentMethodType.BANK_TRANSFER,
+  },
   { id: 'gopay', name: 'GoPay', type: PaymentMethodType.E_WALLET },
   { id: 'ovo', name: 'OVO', type: PaymentMethodType.E_WALLET },
   { id: 'dana', name: 'DANA', type: PaymentMethodType.E_WALLET },
-  { id: 'shopeepay', name: 'ShopeePay', type: PaymentMethodType.E_WALLET },
-  { id: 'cod', name: 'Cash On Delivery (COD)', type: PaymentMethodType.COD },
+  {
+    id: 'shopeepay',
+    name: 'ShopeePay',
+    type: PaymentMethodType.E_WALLET,
+  },
+  {
+    id: 'cod',
+    name: 'Cash On Delivery (COD)',
+    type: PaymentMethodType.COD,
+  },
 ];
 
 export const CITIES_KABUPATEN: string[] = [
-  "Jakarta Pusat",
-  "Jakarta Utara",
-  "Jakarta Barat",
-  "Jakarta Selatan",
-  "Jakarta Timur",
-  "Bandung",
-  "Surabaya",
-  "Medan",
-  "Palembang",
-  "Depok",
-  "Bogor",
-  "Tangerang",
-  "Bekasi",
+  'Jakarta Pusat',
+  'Jakarta Utara',
+  'Jakarta Barat',
+  'Jakarta Selatan',
+  'Jakarta Timur',
+  'Bandung',
+  'Surabaya',
+  'Medan',
+  'Palembang',
+  'Depok',
+  'Bogor',
+  'Tangerang',
+  'Bekasi',
 ];

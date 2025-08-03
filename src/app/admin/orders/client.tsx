@@ -161,6 +161,8 @@ export default function OrdersClient({
     [orders]
   );
 
+  console.log('render');
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Orders</h2>
@@ -174,7 +176,11 @@ export default function OrdersClient({
             <div className="h-24 w-8 bg-muted relative">
               <div
                 className="absolute bottom-0 left-0 right-0 bg-primary"
-                style={{ height: `${(sc.count / (orders.length || 1)) * 100}%` }}
+                style={{
+                  height: `${
+                    (sc.count / (orders.length || 1)) * 100
+                  }%`,
+                }}
               />
             </div>
             <span>{sc.count}</span>
@@ -255,4 +261,3 @@ export default function OrdersClient({
     </div>
   );
 }
-

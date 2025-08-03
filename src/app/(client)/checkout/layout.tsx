@@ -2,7 +2,7 @@
 'use client';
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import CheckoutProgress from '../../components/checkout/CheckoutProgress';
+import CheckoutProgress from '@/components/checkout/CheckoutProgress';
 
 export default function CheckoutLayout({
   children,

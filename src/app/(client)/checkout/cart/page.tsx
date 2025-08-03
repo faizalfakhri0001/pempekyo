@@ -4,12 +4,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCartStore } from "../../../store/cartStore";
-import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
-import { Card, CardContent } from "../../../components/ui/card";
-import CartItem from "../../../components/checkout/CartItem";
-import OrderSummary from "../../../components/checkout/OrderSummary";
+import { useCartStore } from "@/store/cartStore";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import CartItem from "@/components/checkout/CartItem";
+import OrderSummary from "@/components/checkout/OrderSummary";
 import { ChevronRightIcon, ShoppingCartIcon } from "lucide-react";
 
 export default function CartPage() {

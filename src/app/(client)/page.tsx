@@ -5,10 +5,10 @@ import { MOCK_TESTIMONIALS } from '@/constants/components';
 import { ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import OrderStep from '../components/shared/OrderStep';
-import ProductCard from '../components/shared/ProductCard';
-import TestimonialCard from '../components/shared/TestimonialCard';
-import { Button } from '../components/ui/button';
+import OrderStep from '@/components/shared/OrderStep';
+import ProductCard from '@/components/shared/ProductCard';
+import TestimonialCard from '@/components/shared/TestimonialCard';
+import { Button } from '@/components/ui/button';
 import { getProducts } from '@/lib/products';
 import type { Product } from '@/types/components';
 

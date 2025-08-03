@@ -1,20 +1,25 @@
 /** @format */
 
 'use client';
-import {
-  MOCK_PRODUCTS,
-  MOCK_TESTIMONIALS,
-} from '@/constants/components';
+import { MOCK_TESTIMONIALS } from '@/constants/components';
 import { ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import OrderStep from '../components/shared/OrderStep';
 import ProductCard from '../components/shared/ProductCard';
 import TestimonialCard from '../components/shared/TestimonialCard';
 import { Button } from '../components/ui/button';
+import { getProducts } from '@/lib/products';
+import type { Product } from '@/types/components';
 
 export default function HomePage() {
-  const featuredProducts = MOCK_PRODUCTS.slice(0, 4);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    getProducts().then((products) =>
+      setFeaturedProducts(products.slice(0, 4))
+    );
+  }, []);
 
   return (
     <div className="bg-gray-50 text-gray-800">

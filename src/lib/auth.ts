@@ -13,6 +13,7 @@ export interface RegisterDetails {
   email: string;
   password: string;
   name: string;
+  role?: 'admin' | 'customer';
   [key: string]: unknown;
 }
 
@@ -30,6 +31,7 @@ export async function register(
       ...details,
       name: details.name,
       email: details.email,
+      role: details.role ?? 'customer',
     });
     return cred;
   } catch (e) {

@@ -57,6 +57,7 @@ export const useAuthStore = create<AuthState>()(
             id: cred.user.uid,
             email: cred.user.email ?? credentials.email,
             name: data?.name ?? '',
+            role: data?.role ?? 'customer',
           };
 
           set({ user, isLoggedIn: true, isLoading: false });
@@ -82,6 +83,7 @@ export const useAuthStore = create<AuthState>()(
             id: cred.user.uid,
             email: cred.user.email ?? '',
             name: data?.name ?? '',
+            role: data?.role ?? 'customer',
           };
 
           set({ user, isLoggedIn: true, isLoading: false });
@@ -108,6 +110,7 @@ export const useAuthStore = create<AuthState>()(
             id: cred.user.uid,
             email: details.email,
             name: details.name,
+            role: details.role ?? 'customer',
           };
 
           set({ user, isLoggedIn: true, isLoading: false });

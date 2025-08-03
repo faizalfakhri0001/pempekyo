@@ -9,6 +9,7 @@ import { Card, CardContent } from "../../../components/ui/card";
 import OrderSummary from "../../../components/checkout/OrderSummary";
 import PaymentOptions from "../../../components/checkout/PaymentOptions";
 import { PAYMENT_OPTIONS } from "@/constants/components";
+import { createOrder } from "@/lib/orders";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 const useSimplePaymentStore = (): [
@@ -57,32 +58,35 @@ export default function PaymentPage() {
     setSelectedPaymentId(paymentId);
   };
 
-  const handleCompleteOrder = () => {
+  const handleCompleteOrder = async () => {
     if (!selectedPaymentId) {
       alert("Silakan pilih metode pembayaran terlebih dahulu.");
       return;
     }
     setIsProcessing(true);
-    // Simulate order processing
-    console.log("Order details:", {
-      items,
-      shippingInfo:
-        typeof window !== "undefined"
-          ? JSON.parse(localStorage.getItem("checkoutShippingInfo") || "{}")
-          : {},
-      paymentMethod: PAYMENT_OPTIONS.find((p) => p.id === selectedPaymentId),
-    });
+    const shippingInfo =
+      typeof window !== "undefined"
+        ? JSON.parse(localStorage.getItem("checkoutShippingInfo") || "{}")
+        : {};
+    const paymentMethod = PAYMENT_OPTIONS.find(
+      (p) => p.id === selectedPaymentId
+    );
 
-    setTimeout(() => {
+    try {
+      await createOrder(items, shippingInfo, paymentMethod!);
       alert("Pesanan berhasil! Terima kasih telah berbelanja.");
       clearCart();
       if (typeof window !== "undefined") {
         localStorage.removeItem("checkoutShippingInfo");
         localStorage.removeItem("checkoutPaymentOptionId");
       }
-      router.push("/"); // Redirect to homepage
+      router.push("/");
+    } catch (e) {
+      console.error("Failed to create order", e);
+      alert("Terjadi kesalahan saat memproses pesanan.");
+    } finally {
       setIsProcessing(false);
-    }, 2000);
+    }
   };
 
   if (items.length === 0) {

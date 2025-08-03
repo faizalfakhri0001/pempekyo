@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React from 'react';
+import LogoutButton from '@/components/shared/LogoutButton';
 
 export default function AdminLayout({
   children,
@@ -30,6 +31,7 @@ export default function AdminLayout({
       <div className="flex-1 flex flex-col">
         <header className="h-16 border-b px-4 flex items-center justify-between bg-white">
           <h1 className="text-lg font-semibold">Dashboard</h1>
+          <LogoutButton />
         </header>
         <main className="flex-1 p-4">{children}</main>
       </div>

@@ -1,25 +1,8 @@
 /** @format */
-'use client';
 
+'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { formatCurrency } from '@/lib/formatCurrency';
 import {
   addProduct,
   deleteProduct,
@@ -27,12 +10,6 @@ import {
   updateProduct,
 } from '@/lib/products';
 import type { Product } from '@/types/components';
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
 import React, { useEffect, useState } from 'react';
 
 export default function AdminProductsPage() {
@@ -44,17 +21,15 @@ export default function AdminProductsPage() {
     price: '',
     imageUrl: '',
   });
-  const [page, setPage] = useState(1);
-  const perPage = 5;
 
-  const load = React.useCallback(async () => {
+  const load = async () => {
     const data = await getProducts();
     setProducts(data);
-  }, []);
+  };
 
   useEffect(() => {
     load();
-  }, [load]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,7 +57,7 @@ export default function AdminProductsPage() {
     load();
   };
 
-  const handleEdit = React.useCallback((product: Product) => {
+  const handleEdit = (product: Product) => {
     setForm({
       id: product.id,
       name: product.name,
@@ -90,66 +65,12 @@ export default function AdminProductsPage() {
       price: String(product.price),
       imageUrl: product.imageUrl,
     });
-  }, []);
+  };
 
-  const handleDelete = React.useCallback(
-    async (id: string) => {
-      await deleteProduct(id);
-      await load();
-    },
-    [load]
-  );
-
-  const pageCount = Math.ceil(products.length / perPage);
-  const pagedProducts = products.slice(
-    (page - 1) * perPage,
-    page * perPage
-  );
-
-  const columns = React.useMemo<ColumnDef<Product>[]>(
-    () => [
-      {
-        accessorKey: 'name',
-        header: 'Name',
-      },
-      {
-        accessorKey: 'price',
-        header: 'Price',
-        cell: ({ row }) => formatCurrency(row.original.price),
-      },
-      {
-        id: 'actions',
-        header: 'Actions',
-        cell: ({ row }) => (
-          <div className="space-x-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => handleEdit(row.original)}
-            >
-              Edit
-            </Button>
-            <Button
-              type="button"
-              variant="destructive"
-              size="sm"
-              onClick={() => handleDelete(row.original.id)}
-            >
-              Delete
-            </Button>
-          </div>
-        ),
-      },
-    ],
-    [handleDelete, handleEdit]
-  );
-
-  const table = useReactTable({
-    data: pagedProducts,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+  const handleDelete = async (id: string) => {
+    await deleteProduct(id);
+    load();
+  };
 
   return (
     <div>
@@ -212,77 +133,35 @@ export default function AdminProductsPage() {
           )}
         </div>
       </form>
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell
-                colSpan={columns.length}
-                className="text-center"
+      <ul className="space-y-2">
+        {products.map((product) => (
+          <li
+            key={product.id}
+            className="flex items-center justify-between border p-2 rounded"
+          >
+            <div>
+              <p className="font-semibold">{product.name}</p>
+              <p className="text-sm text-gray-600">{product.price}</p>
+            </div>
+            <div className="space-x-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => handleEdit(product)}
               >
-                Data masih kosong
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      {pageCount > 1 && (
-        <Pagination className="mt-4">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-              />
-            </PaginationItem>
-            {Array.from({ length: pageCount }).map((_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  isActive={page === i + 1}
-                  onClick={() => setPage(i + 1)}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                onClick={() =>
-                  setPage((p) => Math.min(pageCount, p + 1))
-                }
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      )}
+                Edit
+              </Button>
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => handleDelete(product.id)}
+              >
+                Delete
+              </Button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

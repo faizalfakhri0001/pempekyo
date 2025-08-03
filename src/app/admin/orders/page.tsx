@@ -1,28 +1,7 @@
-"use client";
+/** @format */
+'use client';
 
-import React, { useEffect, useState } from "react";
-import type { Order } from "@/types/components";
-import {
-  listOrders,
-  updateOrderStatus,
-  deleteOrder,
-} from "@/lib/orders";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Pagination,
   PaginationContent,
@@ -30,21 +9,43 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import { formatCurrency } from "@/lib/formatCurrency";
+} from '@/components/ui/pagination';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { formatCurrency } from '@/lib/formatCurrency';
+import {
+  deleteOrder,
+  listOrders,
+  updateOrderStatus,
+} from '@/lib/orders';
+import type { Order } from '@/types/components';
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
+import React, { useEffect, useState } from 'react';
 
-const STATUSES: Order["status"][] = [
-  "Pending",
-  "Processing",
-  "Shipped",
-  "Delivered",
-  "Cancelled",
+const STATUSES: Order['status'][] = [
+  'Pending',
+  'Processing',
+  'Shipped',
+  'Delivered',
+  'Cancelled',
 ];
 
 export default function AdminOrdersPage() {
@@ -62,7 +63,7 @@ export default function AdminOrdersPage() {
   }, [load]);
 
   const handleStatusChange = React.useCallback(
-    async (id: string, status: Order["status"]) => {
+    async (id: string, status: Order['status']) => {
       await updateOrderStatus(id, status);
       await load();
     },
@@ -78,27 +79,33 @@ export default function AdminOrdersPage() {
   );
 
   const pageCount = Math.ceil(orders.length / perPage);
-  const pagedOrders = orders.slice((page - 1) * perPage, page * perPage);
+  const pagedOrders = orders.slice(
+    (page - 1) * perPage,
+    page * perPage
+  );
 
   const columns = React.useMemo<ColumnDef<Order>[]>(
     () => [
       {
-        header: "Customer",
+        header: 'Customer',
         accessorFn: (row) => row.shippingInfo.fullName,
       },
       {
-        header: "Total",
-        accessorKey: "totalAmount",
+        header: 'Total',
+        accessorKey: 'totalAmount',
         cell: ({ row }) => formatCurrency(row.original.totalAmount),
       },
       {
-        header: "Status",
-        accessorKey: "status",
+        header: 'Status',
+        accessorKey: 'status',
         cell: ({ row }) => (
           <Select
             value={row.original.status}
             onValueChange={(v) =>
-              handleStatusChange(row.original.id, v as Order["status"])
+              handleStatusChange(
+                row.original.id,
+                v as Order['status']
+              )
             }
           >
             <SelectTrigger className="w-[150px]">
@@ -115,14 +122,14 @@ export default function AdminOrdersPage() {
         ),
       },
       {
-        header: "Date",
-        accessorKey: "orderDate",
+        header: 'Date',
+        accessorKey: 'orderDate',
         cell: ({ row }) =>
-          row.original.orderDate.toLocaleDateString("id-ID"),
+          row.original.orderDate.toLocaleDateString('id-ID'),
       },
       {
-        id: "actions",
-        header: "Actions",
+        id: 'actions',
+        header: 'Actions',
         cell: ({ row }) => (
           <Button
             size="sm"
@@ -168,7 +175,10 @@ export default function AdminOrdersPage() {
             <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  {flexRender(
+                    cell.column.columnDef.cell,
+                    cell.getContext()
+                  )}
                 </TableCell>
               ))}
             </TableRow>
@@ -206,4 +216,3 @@ export default function AdminOrdersPage() {
     </div>
   );
 }
-

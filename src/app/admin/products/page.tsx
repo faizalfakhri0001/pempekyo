@@ -1,22 +1,8 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import type { Product } from "@/types/components";
-import {
-  addProduct,
-  deleteProduct,
-  getProducts,
-  updateProduct,
-} from "@/lib/products";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
+/** @format */
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Pagination,
   PaginationContent,
@@ -24,23 +10,39 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import { formatCurrency } from "@/lib/formatCurrency";
+} from '@/components/ui/pagination';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { formatCurrency } from '@/lib/formatCurrency';
+import {
+  addProduct,
+  deleteProduct,
+  getProducts,
+  updateProduct,
+} from '@/lib/products';
+import type { Product } from '@/types/components';
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
+import React, { useEffect, useState } from 'react';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState({
-    id: "",
-    name: "",
-    description: "",
-    price: "",
-    imageUrl: "",
+    id: '',
+    name: '',
+    description: '',
+    price: '',
+    imageUrl: '',
   });
   const [page, setPage] = useState(1);
   const perPage = 5;
@@ -70,7 +72,13 @@ export default function AdminProductsPage() {
       await addProduct(payload);
     }
 
-    setForm({ id: "", name: "", description: "", price: "", imageUrl: "" });
+    setForm({
+      id: '',
+      name: '',
+      description: '',
+      price: '',
+      imageUrl: '',
+    });
     load();
   };
 
@@ -93,22 +101,25 @@ export default function AdminProductsPage() {
   );
 
   const pageCount = Math.ceil(products.length / perPage);
-  const pagedProducts = products.slice((page - 1) * perPage, page * perPage);
+  const pagedProducts = products.slice(
+    (page - 1) * perPage,
+    page * perPage
+  );
 
   const columns = React.useMemo<ColumnDef<Product>[]>(
     () => [
       {
-        accessorKey: "name",
-        header: "Name",
+        accessorKey: 'name',
+        header: 'Name',
       },
       {
-        accessorKey: "price",
-        header: "Price",
+        accessorKey: 'price',
+        header: 'Price',
         cell: ({ row }) => formatCurrency(row.original.price),
       },
       {
-        id: "actions",
-        header: "Actions",
+        id: 'actions',
+        header: 'Actions',
         cell: ({ row }) => (
           <div className="space-x-2">
             <Button
@@ -143,7 +154,10 @@ export default function AdminProductsPage() {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Products</h2>
-      <form onSubmit={handleSubmit} className="space-y-2 mb-6 max-w-md">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-2 mb-6 max-w-md"
+      >
         <Input
           placeholder="Name"
           value={form.name}
@@ -153,32 +167,44 @@ export default function AdminProductsPage() {
         <Input
           placeholder="Description"
           value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, description: e.target.value })
+          }
           required
         />
         <Input
           type="number"
           placeholder="Price"
           value={form.price}
-          onChange={(e) => setForm({ ...form, price: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, price: e.target.value })
+          }
           required
         />
         <Input
           placeholder="Image URL"
           value={form.imageUrl}
-          onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, imageUrl: e.target.value })
+          }
           required
         />
         <div className="space-x-2">
           <Button type="submit">
-            {form.id ? "Update" : "Add"} Product
+            {form.id ? 'Update' : 'Add'} Product
           </Button>
           {form.id && (
             <Button
               type="button"
               variant="outline"
               onClick={() =>
-                setForm({ id: "", name: "", description: "", price: "", imageUrl: "" })
+                setForm({
+                  id: '',
+                  name: '',
+                  description: '',
+                  price: '',
+                  imageUrl: '',
+                })
               }
             >
               Cancel
@@ -208,7 +234,10 @@ export default function AdminProductsPage() {
             <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  {flexRender(
+                    cell.column.columnDef.cell,
+                    cell.getContext()
+                  )}
                 </TableCell>
               ))}
             </TableRow>
@@ -235,7 +264,9 @@ export default function AdminProductsPage() {
             ))}
             <PaginationItem>
               <PaginationNext
-                onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+                onClick={() =>
+                  setPage((p) => Math.min(pageCount, p + 1))
+                }
               />
             </PaginationItem>
           </PaginationContent>

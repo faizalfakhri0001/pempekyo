@@ -3,6 +3,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useDebounceEffect } from '@/hooks/useDebounceEffect';
 import {
   addProduct,
   deleteProduct,
@@ -10,7 +11,7 @@ import {
   updateProduct,
 } from '@/lib/products';
 import type { Product } from '@/types/components';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 export default function AdminProductsPage() {
   const initialized = useRef(true);
@@ -28,12 +29,16 @@ export default function AdminProductsPage() {
     setProducts(data);
   }, []);
 
-  useEffect(() => {
-    if (initialized.current) {
-      initialized.current = false;
-      load();
-    }
-  }, [load]);
+  useDebounceEffect(
+    () => {
+      if (initialized.current) {
+        initialized.current = false;
+        load();
+      }
+    },
+    [load],
+    300
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

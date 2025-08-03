@@ -25,6 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useDebounceEffect } from '@/hooks/useDebounceEffect';
 import { formatCurrency } from '@/lib/formatCurrency';
 import {
   deleteOrder,
@@ -38,7 +39,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const STATUSES: Order['status'][] = [
   'Pending',
@@ -56,15 +57,20 @@ export default function AdminOrdersPage() {
 
   const load = React.useCallback(async () => {
     const data = await listOrders();
+    console.log('orders: ', data);
     setOrders(data);
   }, []);
 
-  useEffect(() => {
-    if (initialized.current) {
-      initialized.current = false;
-      load();
-    }
-  }, [load]);
+  useDebounceEffect(
+    () => {
+      if (initialized.current) {
+        initialized.current = false;
+        load();
+      }
+    },
+    [load],
+    1000
+  );
 
   const handleStatusChange = React.useCallback(
     async (id: string, status: Order['status']) => {

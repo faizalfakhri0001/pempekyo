@@ -1,29 +1,31 @@
 /** @format */
 
-"use client";
-import React, { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCartStore } from "@/store/cartStore";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
-import CartItem from "@/components/checkout/CartItem";
-import OrderSummary from "@/components/checkout/OrderSummary";
-import { ChevronRightIcon, ShoppingCartIcon } from "lucide-react";
+'use client';
+import CartItem from '@/components/checkout/CartItem';
+import OrderSummary from '@/components/checkout/OrderSummary';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useCartStore } from '@/store/cartStore';
+import { ChevronRightIcon, ShoppingCartIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 export default function CartPage() {
   const { items, applyPromoCode, clearCart } = useCartStore();
-  const [promoInput, setPromoInput] = useState("");
-  const [promoMessage, setPromoMessage] = useState<string | null>(null);
+  const [promoInput, setPromoInput] = useState('');
+  const [promoMessage, setPromoMessage] = useState<string | null>(
+    null
+  );
   const router = useRouter();
 
   const handleApplyPromo = () => {
     const isValid = applyPromoCode(promoInput);
     if (isValid) {
-      setPromoMessage("Kode promo berhasil diterapkan!");
+      setPromoMessage('Kode promo berhasil diterapkan!');
     } else {
-      setPromoMessage("Kode promo tidak valid.");
+      setPromoMessage('Kode promo tidak valid.');
     }
     setTimeout(() => setPromoMessage(null), 3000); // Clear message after 3 seconds
   };
@@ -87,9 +89,9 @@ export default function CartPage() {
             {promoMessage && (
               <p
                 className={`mt-2 text-sm ${
-                  promoMessage.includes("berhasil")
-                    ? "text-green-600"
-                    : "text-red-600"
+                  promoMessage.includes('berhasil')
+                    ? 'text-green-600'
+                    : 'text-red-600'
                 }`}
               >
                 {promoMessage}
@@ -103,9 +105,10 @@ export default function CartPage() {
         <Button
           className="w-full mt-6 bg-gray-800 hover:bg-gray-900 text-white"
           size="lg"
-          onClick={() => router.push("/checkout/shipping")}
+          onClick={() => router.push('/checkout/shipping')}
         >
-          Lanjut ke Pengiriman <ChevronRightIcon className="ml-2 h-5 w-5" />
+          Lanjut ke Pengiriman{' '}
+          <ChevronRightIcon className="ml-2 h-5 w-5" />
         </Button>
       </div>
     </div>

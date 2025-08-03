@@ -1,7 +1,7 @@
 /** @format */
 
 'use client';
-import { loginWithGoogle } from '@/lib/auth';
+import { register as firebaseRegister } from '@/lib/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EyeIcon, EyeOff } from 'lucide-react';
 import Link from 'next/link';
@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuthStore } from '@/store/authStore';
+import { signIn } from 'next-auth/react';
 
 const registerSchema = z
   .object({
@@ -46,11 +46,7 @@ export default function RegisterPage() {
     useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const {
-    register: registerUser,
-    isLoading,
-    setIsLoading,
-  } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -64,13 +60,18 @@ export default function RegisterPage() {
     data
   ) => {
     setError(null);
-    const user = await registerUser({
+    setIsLoading(true);
+    const cred = await firebaseRegister({
       name: data.name,
       email: data.email,
       password: data.password,
     });
-    if (user) {
-      router.push('/'); // Redirect to homepage or dashboard after registration
+    if (cred) {
+      await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+      });
+      router.push('/');
     } else {
       setError('Gagal mendaftar. Email mungkin sudah digunakan.');
       setIsLoading(false);
@@ -81,17 +82,8 @@ export default function RegisterPage() {
     provider: 'google' | 'facebook'
   ) => {
     setError(null);
-    // This is a mock; in a real app, you'd get name from OAuth response.
-    // For now, if "registering" via social, we just log them in.
     if (provider === 'google') {
-      const user = await loginWithGoogle();
-      if (user) {
-        router.push('/');
-      } else {
-        setError(
-          `Gagal mendaftar dengan ${provider}. Silakan coba lagi.`
-        );
-      }
+      await signIn('google', { callbackUrl: '/' });
       return;
     }
   };

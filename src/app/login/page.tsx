@@ -19,7 +19,7 @@ import {
 } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
-import { useAuthStore } from '../../store/authStore';
+import { signIn } from 'next-auth/react';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Email tidak valid' }),
@@ -34,7 +34,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { login, loginWithGoogle, isLoading } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -47,14 +47,21 @@ export default function LoginPage() {
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     setError(null);
     try {
-      const user = await login(data);
-      if (user) {
-        router.push('/'); // Redirect to homepage or dashboard
-      } else {
+      setIsLoading(true);
+      const res = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+      if (res?.error) {
         setError('Email atau kata sandi salah. Silakan coba lagi.');
+      } else {
+        router.push('/');
       }
     } catch {
       setError('Server Error.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,16 +69,8 @@ export default function LoginPage() {
     provider: 'google' | 'facebook'
   ) => {
     setError(null);
-
     if (provider === 'google') {
-      const user = await loginWithGoogle();
-      if (user) {
-        router.push('/');
-      } else {
-        setError(
-          `Gagal masuk dengan ${provider}. Silakan coba lagi.`
-        );
-      }
+      await signIn('google', { callbackUrl: '/' });
       return;
     }
   };

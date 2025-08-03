@@ -10,7 +10,7 @@ import OrderSummary from "@/components/checkout/OrderSummary";
 import ShippingForm, {
   shippingSchema,
 } from "@/components/checkout/ShippingForm";
-import { ShippingInfo } from "../../../types/components";
+import { ShippingInfo } from "@/types/components";
 import { z } from "zod";
 import { ChevronLeftIcon } from "lucide-react";
 

@@ -1,10 +1,10 @@
 /** @format */
 
-import React from "react";
-import Link from "next/link";
-import { APP_NAME } from "@/constants/components";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { APP_NAME } from '@/constants/components';
+import Link from 'next/link';
+import React from 'react';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 // Assuming you have these icons or similar
 const InstagramIcon = () => (
@@ -28,22 +28,33 @@ const Footer: React.FC = () => {
     <footer className="bg-gray-100 text-gray-700 py-12">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* PempekYo Info */}
+          {/* PempekTR Info */}
           <div>
-            <h5 className="text-xl font-bold text-gray-900 mb-4">{APP_NAME}</h5>
+            <h5 className="text-xl font-bold text-gray-900 mb-4">
+              {APP_NAME}
+            </h5>
             <p className="text-sm leading-relaxed">
-              Menyajikan pempek asli Palembang dengan kualitas terbaik. Kami
-              berkomitmen untuk memberikan pengalaman kuliner yang tak
-              terlupakan.
+              Menyajikan pempek asli Palembang dengan kualitas
+              terbaik. Kami berkomitmen untuk memberikan pengalaman
+              kuliner yang tak terlupakan.
             </p>
             <div className="flex space-x-4 mt-4">
-              <Link href="#" className="text-gray-500 hover:text-gray-800">
+              <Link
+                href="#"
+                className="text-gray-500 hover:text-gray-800"
+              >
                 <InstagramIcon />
               </Link>
-              <Link href="#" className="text-gray-500 hover:text-gray-800">
+              <Link
+                href="#"
+                className="text-gray-500 hover:text-gray-800"
+              >
                 <FacebookIcon />
               </Link>
-              <Link href="#" className="text-gray-500 hover:text-gray-800">
+              <Link
+                href="#"
+                className="text-gray-500 hover:text-gray-800"
+              >
                 <TwitterIcon />
               </Link>
             </div>
@@ -56,22 +67,34 @@ const Footer: React.FC = () => {
             </h5>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className="text-sm hover:text-gray-900">
+                <Link
+                  href="#"
+                  className="text-sm hover:text-gray-900"
+                >
                   Tentang Kami
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm hover:text-gray-900">
+                <Link
+                  href="#"
+                  className="text-sm hover:text-gray-900"
+                >
                   Cara Pemesanan
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm hover:text-gray-900">
+                <Link
+                  href="#"
+                  className="text-sm hover:text-gray-900"
+                >
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm hover:text-gray-900">
+                <Link
+                  href="#"
+                  className="text-sm hover:text-gray-900"
+                >
                   Kebijakan Privasi
                 </Link>
               </li>
@@ -80,9 +103,13 @@ const Footer: React.FC = () => {
 
           {/* Kontak */}
           <div>
-            <h5 className="text-lg font-semibold text-gray-900 mb-4">Kontak</h5>
+            <h5 className="text-lg font-semibold text-gray-900 mb-4">
+              Kontak
+            </h5>
             <ul className="space-y-2 text-sm">
-              <li>Jl. Merdeka No. 123, Palembang, Sumatera Selatan</li>
+              <li>
+                Jl. Merdeka No. 123, Palembang, Sumatera Selatan
+              </li>
               <li>+62 812 3456 7890</li>
               <li>info@Pempekyo.com</li>
             </ul>
@@ -113,7 +140,8 @@ const Footer: React.FC = () => {
         </div>
         <div className="border-t border-gray-300 pt-8 text-center text-sm">
           <p>
-            &copy; {new Date().getFullYear()} {APP_NAME}. Hak Cipta Dilindungi.
+            &copy; {new Date().getFullYear()} {APP_NAME}. Hak Cipta
+            Dilindungi.
           </p>
         </div>
       </div>

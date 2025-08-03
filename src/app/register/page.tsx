@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { IoLogoFacebook } from 'react-icons/io';
 import * as z from 'zod';
 import { Button } from '../../components/ui/button';
 import {
@@ -248,29 +247,16 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <div>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => handleSocialLogin('google')}
-                    disabled={isLoading}
-                  >
-                    <FcGoogle className="mr-2 h-5 w-5" />
-                    Google
-                  </Button>
-                </div>
-                <div>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => handleSocialLogin('facebook')}
-                    disabled={isLoading}
-                  >
-                    <IoLogoFacebook className="mr-2 h-5 w-5 text-[#1877F2]" />
-                    Facebook
-                  </Button>
-                </div>
+              <div className="mt-6">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleSocialLogin('google')}
+                  disabled={isLoading}
+                >
+                  <FcGoogle className="mr-2 h-5 w-5" />
+                  Google
+                </Button>
               </div>
             </div>
             <div className="mt-6 text-center text-sm">

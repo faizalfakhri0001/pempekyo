@@ -8,7 +8,7 @@ import {
   Testimonial,
 } from '@/types/components';
 
-export const APP_NAME = 'PempekYo';
+export const APP_NAME = 'PempekTR';
 
 export const NAV_LINKS: NavLink[] = [
   { href: '/', label: 'Beranda' },
@@ -77,7 +77,7 @@ export const MOCK_TESTIMONIALS: Testimonial[] = [
     name: 'Siti Rahmawati',
     role: 'Food Blogger',
     comment:
-      'Sebagai food blogger, saya highly recommend PempekYo. Kualitas bahan dan rasa tidak diragukan lagi. Pengiriman juga cepat.',
+      'Sebagai food blogger, saya highly recommend PempekTR. Kualitas bahan dan rasa tidak diragukan lagi. Pengiriman juga cepat.',
     rating: 5,
     imageUrl: 'https://picsum.photos/seed/siti/100/100',
   },

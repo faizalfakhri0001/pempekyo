@@ -6,6 +6,7 @@ import {
   getDocs,
   doc,
   updateDoc,
+  deleteDoc,
   serverTimestamp,
   Timestamp,
 } from 'firebase/firestore';
@@ -66,4 +67,9 @@ export async function updateOrderStatus(
 ): Promise<void> {
   const ref = doc(ordersCol, id);
   await updateDoc(ref, { status });
+}
+
+export async function deleteOrder(id: string): Promise<void> {
+  const ref = doc(ordersCol, id);
+  await deleteDoc(ref);
 }

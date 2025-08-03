@@ -2,27 +2,27 @@
 
 'use client';
 import { APP_NAME, NAV_LINKS } from '@/constants/components';
-import { auth } from '@/lib/firebase';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { useAuthStore } from '../../store/authStore';
 import { useCartStore } from '../../store/cartStore';
 import { Button } from '../ui/button';
+import { useSession, signOut } from 'next-auth/react';
 
 const Navbar: React.FC = () => {
-  const { isLoggedIn, user, logout } = useAuthStore();
+  const { data: session } = useSession();
+  const user = session?.user;
+  const isLoggedIn = !!session?.user;
   const { getTotalItems, isCartAnimating } = useCartStore();
   const router = useRouter();
 
   const totalCartItems = getTotalItems();
 
   const handleAuthAction = () => {
-    if (isLoggedIn || !!auth.currentUser) {
-      logout();
-      router.push('/'); // Redirect to home after logout
+    if (isLoggedIn) {
+      signOut({ callbackUrl: '/' });
     } else {
       router.push('/login');
     }
@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
               </span>
             )}
           </Link>
-          {isLoggedIn || !!auth.currentUser ? (
+          {isLoggedIn ? (
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-700 hidden sm:inline">
                 Hi, {user?.name?.split(' ')[0] || 'User'}

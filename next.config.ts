@@ -1,4 +1,6 @@
-import type { NextConfig } from "next";
+/** @format */
+
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -10,6 +12,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  pageExtensions: ['ts', 'tsx'],
 };
 
 export default nextConfig;

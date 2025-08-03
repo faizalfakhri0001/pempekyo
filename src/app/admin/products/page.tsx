@@ -13,6 +13,7 @@ import type { Product } from '@/types/components';
 import React, { useEffect, useRef, useState } from 'react';
 
 export default function AdminProductsPage() {
+  const initialized = useRef(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState({
     id: '',
@@ -27,11 +28,11 @@ export default function AdminProductsPage() {
     setProducts(data);
   }, []);
 
-  const initialized = useRef(false);
   useEffect(() => {
-    if (initialized.current) return;
-    initialized.current = true;
-    load();
+    if (initialized.current) {
+      initialized.current = false;
+      load();
+    }
   }, [load]);
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -49,6 +49,7 @@ const STATUSES: Order['status'][] = [
 ];
 
 export default function AdminOrdersPage() {
+  const initialized = useRef(true);
   const [orders, setOrders] = useState<Order[]>([]);
   const [page, setPage] = useState(1);
   const perPage = 5;
@@ -58,11 +59,11 @@ export default function AdminOrdersPage() {
     setOrders(data);
   }, []);
 
-  const initialized = useRef(false);
   useEffect(() => {
-    if (initialized.current) return;
-    initialized.current = true;
-    load();
+    if (initialized.current) {
+      initialized.current = false;
+      load();
+    }
   }, [load]);
 
   const handleStatusChange = React.useCallback(

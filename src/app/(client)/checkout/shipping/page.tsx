@@ -3,13 +3,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useCartStore } from "../../../store/cartStore";
-import { Button } from "../../../components/ui/button";
-import { Card, CardContent } from "../../../components/ui/card";
-import OrderSummary from "../../../components/checkout/OrderSummary";
+import { useCartStore } from "@/store/cartStore";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import OrderSummary from "@/components/checkout/OrderSummary";
 import ShippingForm, {
   shippingSchema,
-} from "../../../components/checkout/ShippingForm";
+} from "@/components/checkout/ShippingForm";
 import { ShippingInfo } from "../../../types/components";
 import { z } from "zod";
 import { ChevronLeftIcon } from "lucide-react";

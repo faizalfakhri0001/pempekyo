@@ -3,11 +3,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useCartStore } from "../../../store/cartStore";
-import { Button } from "../../../components/ui/button";
-import { Card, CardContent } from "../../../components/ui/card";
-import OrderSummary from "../../../components/checkout/OrderSummary";
-import PaymentOptions from "../../../components/checkout/PaymentOptions";
+import { useCartStore } from "@/store/cartStore";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import OrderSummary from "@/components/checkout/OrderSummary";
+import PaymentOptions from "@/components/checkout/PaymentOptions";
 import { PAYMENT_OPTIONS } from "@/constants/components";
 import { createOrder } from "@/lib/orders";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";

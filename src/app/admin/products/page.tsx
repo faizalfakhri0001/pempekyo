@@ -10,7 +10,7 @@ import {
   updateProduct,
 } from '@/lib/products';
 import type { Product } from '@/types/components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -22,14 +22,17 @@ export default function AdminProductsPage() {
     imageUrl: '',
   });
 
-  const load = async () => {
+  const load = React.useCallback(async () => {
     const data = await getProducts();
     setProducts(data);
-  };
-
-  useEffect(() => {
-    load();
   }, []);
+
+  const initialized = useRef(false);
+  useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+    load();
+  }, [load]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

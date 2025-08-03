@@ -10,7 +10,8 @@ import {
   updateProduct,
 } from '@/lib/products';
 import type { Product } from '@/types/components';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { useDebounceEffect } from '@/hooks/useDebounceEffect';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -27,12 +28,9 @@ export default function AdminProductsPage() {
     setProducts(data);
   }, []);
 
-  const initialized = useRef(false);
-  useEffect(() => {
-    if (initialized.current) return;
-    initialized.current = true;
+  useDebounceEffect(() => {
     load();
-  }, [load]);
+  }, [load], 300);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

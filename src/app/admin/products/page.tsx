@@ -9,6 +9,29 @@ import {
 } from "@/lib/products";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { formatCurrency } from "@/lib/formatCurrency";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -19,15 +42,17 @@ export default function AdminProductsPage() {
     price: "",
     imageUrl: "",
   });
+  const [page, setPage] = useState(1);
+  const perPage = 5;
 
-  const load = async () => {
+  const load = React.useCallback(async () => {
     const data = await getProducts();
     setProducts(data);
-  };
+  }, []);
 
   useEffect(() => {
     load();
-  }, []);
+  }, [load]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +74,7 @@ export default function AdminProductsPage() {
     load();
   };
 
-  const handleEdit = (product: Product) => {
+  const handleEdit = React.useCallback((product: Product) => {
     setForm({
       id: product.id,
       name: product.name,
@@ -57,12 +82,63 @@ export default function AdminProductsPage() {
       price: String(product.price),
       imageUrl: product.imageUrl,
     });
-  };
+  }, []);
 
-  const handleDelete = async (id: string) => {
-    await deleteProduct(id);
-    load();
-  };
+  const handleDelete = React.useCallback(
+    async (id: string) => {
+      await deleteProduct(id);
+      await load();
+    },
+    [load]
+  );
+
+  const pageCount = Math.ceil(products.length / perPage);
+  const pagedProducts = products.slice((page - 1) * perPage, page * perPage);
+
+  const columns = React.useMemo<ColumnDef<Product>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Name",
+      },
+      {
+        accessorKey: "price",
+        header: "Price",
+        cell: ({ row }) => formatCurrency(row.original.price),
+      },
+      {
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => (
+          <div className="space-x-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => handleEdit(row.original)}
+            >
+              Edit
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              onClick={() => handleDelete(row.original.id)}
+            >
+              Delete
+            </Button>
+          </div>
+        ),
+      },
+    ],
+    [handleDelete, handleEdit]
+  );
+
+  const table = useReactTable({
+    data: pagedProducts,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
   return (
     <div>
@@ -110,35 +186,61 @@ export default function AdminProductsPage() {
           )}
         </div>
       </form>
-      <ul className="space-y-2">
-        {products.map((product) => (
-          <li
-            key={product.id}
-            className="flex items-center justify-between border p-2 rounded"
-          >
-            <div>
-              <p className="font-semibold">{product.name}</p>
-              <p className="text-sm text-gray-600">{product.price}</p>
-            </div>
-            <div className="space-x-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => handleEdit(product)}
-              >
-                Edit
-              </Button>
-              <Button
-                type="button"
-                variant="destructive"
-                onClick={() => handleDelete(product.id)}
-              >
-                Delete
-              </Button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows.map((row) => (
+            <TableRow key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {pageCount > 1 && (
+        <Pagination className="mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+              />
+            </PaginationItem>
+            {Array.from({ length: pageCount }).map((_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  isActive={page === i + 1}
+                  onClick={() => setPage(i + 1)}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 }

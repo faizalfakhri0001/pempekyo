@@ -3,6 +3,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronRightIcon, EyeIcon, EyeOff } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -19,7 +20,6 @@ import {
 } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
-import { signIn } from 'next-auth/react';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Email tidak valid' }),

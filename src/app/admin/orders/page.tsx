@@ -38,7 +38,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const STATUSES: Order['status'][] = [
   'Pending',
@@ -58,7 +58,10 @@ export default function AdminOrdersPage() {
     setOrders(data);
   }, []);
 
+  const initialized = useRef(false);
   useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
     load();
   }, [load]);
 

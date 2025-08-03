@@ -65,4 +65,5 @@ export interface Order {
   discountAmount?: number;
   status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
   orderDate: Date;
+  metadata?: Record<string, unknown>;
 }

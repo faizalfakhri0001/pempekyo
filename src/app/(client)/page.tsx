@@ -1,19 +1,21 @@
 /** @format */
 
 'use client';
-import { MOCK_TESTIMONIALS } from '@/constants/components';
-import { ChevronRightIcon } from 'lucide-react';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
 import OrderStep from '@/components/shared/OrderStep';
 import ProductCard from '@/components/shared/ProductCard';
 import TestimonialCard from '@/components/shared/TestimonialCard';
 import { Button } from '@/components/ui/button';
+import { MOCK_TESTIMONIALS } from '@/constants/components';
 import { getProducts } from '@/lib/products';
 import type { Product } from '@/types/components';
+import { ChevronRightIcon } from 'lucide-react';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
 export default function HomePage() {
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(
+    []
+  );
 
   useEffect(() => {
     getProducts().then((products) =>
@@ -28,7 +30,7 @@ export default function HomePage() {
         className="relative h-[calc(100vh-4rem)] min-h-[500px] flex items-center justify-center text-center text-white"
         style={{
           backgroundImage:
-            "url('https://picsum.photos/seed/pempekhero/1920/1080')",
+            "url('https://res.cloudinary.com/drvqos6qe/image/upload/v1753276360/images_1_kzzryt.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -178,8 +180,8 @@ export default function HomePage() {
             atau kunjungi footer.
           </p>
           <div className="text-lg text-gray-700">
-            <p>Email: info@Pempekyo.com</p>
-            <p>Telepon: +62 812 3456 7890</p>
+            <p>Email: procazh.pangestu@gmail.com</p>
+            <p>Telepon: +62 822 6021 9941</p>
           </div>
         </div>
       </section>

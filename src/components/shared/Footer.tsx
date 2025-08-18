@@ -107,11 +107,9 @@ const Footer: React.FC = () => {
               Kontak
             </h5>
             <ul className="space-y-2 text-sm">
-              <li>
-                Jl. Merdeka No. 123, Palembang, Sumatera Selatan
-              </li>
-              <li>+62 812 3456 7890</li>
-              <li>info@Pempekyo.com</li>
+              <li>Taman Permata Cibinong Blok C2 no.24</li>
+              <li>+62 822 6021 9941</li>
+              <li>procazh.pangetsu@gmail.com</li>
             </ul>
           </div>
 
